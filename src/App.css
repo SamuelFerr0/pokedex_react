@@ -100,8 +100,16 @@
   border-radius: 999px;
   font-size: 0.85rem;
   color: #fff;
-  opacity: 0.75;
+  background: var(--type-color);
+  opacity: 0.85;
   transition: all 0.2s;
+}
+.chip.type-electric,
+.chip.type-ice,
+.chip.type-steel,
+.chip.type-ground,
+.chip.type-normal {
+  color: #1d2233;
 }
 .chip:hover {
   opacity: 1;
@@ -133,4 +141,17 @@
 
 .icone {
   vertical-align: -0.15em;
+}
+
+.aviso {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+}
+.aviso--erro {
+  border-color: #c22e28;
+  color: #c22e28;
 }

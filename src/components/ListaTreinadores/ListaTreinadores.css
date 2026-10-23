@@ -1,6 +1,6 @@
 .trainers { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
 .trainer { background: var(--surface); border-radius: 18px; padding: 1.2rem; box-shadow: var(--shadow); }
-.trainer h3 { display: flex; justify-content: space-between; align-items: center; }
+.trainer h3 { display: flex; align-items: center; gap: .4rem; }
 .trainer__badges { color: var(--muted); font-size: .9rem; margin: .3rem 0 .8rem; }
 .trainer__badges .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #f5b301; margin-right: 3px; }
 .trainer__badges .dot.off { background: var(--border); }

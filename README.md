@@ -1,7 +1,7 @@
 # ⚡ Pokédex React 🐾
 
 > [!NOTE]
-> Pokédex interativa feita com **React + Vite** para pesquisar, filtrar e explorar os 151 Pokémon da 1ª geração, seus atributos e os treinadores que os possuem — tudo a partir de um arquivo JSON local, sem back-end.
+> Pokédex interativa feita com **React + Vite** para pesquisar, filtrar e explorar os 151 Pokémon da 1ª geração, seus atributos e os treinadores que os possuem. Os dados vêm de um arquivo JSON local e os **favoritos ficam salvos no Supabase** (PostgreSQL).
 
 <table>
   <tr>
@@ -20,7 +20,7 @@
 
 ## 🚧 Status do Projeto
 
-![Versão](https://img.shields.io/badge/Versão-v1.0.0-blue?style=for-the-badge) ![React](https://img.shields.io/badge/React-19.2-007ec6?style=for-the-badge&logo=react&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-8.3-007ec6?style=for-the-badge&logo=vite&logoColor=white) ![Licença](https://img.shields.io/badge/Licença-MIT-007ec6?style=for-the-badge&logo=opensourceinitiative&logoColor=white) ![Status](https://img.shields.io/badge/Status-Concluído-success?style=for-the-badge)
+![Versão](https://img.shields.io/badge/Versão-v1.0.0-blue?style=for-the-badge) ![React](https://img.shields.io/badge/React-19.2-007ec6?style=for-the-badge&logo=react&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-8.3-007ec6?style=for-the-badge&logo=vite&logoColor=white) ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-007ec6?style=for-the-badge&logo=supabase&logoColor=white) ![Licença](https://img.shields.io/badge/Licença-MIT-007ec6?style=for-the-badge&logo=opensourceinitiative&logoColor=white) ![Status](https://img.shields.io/badge/Status-Concluído-success?style=for-the-badge)
 
 ---
 
@@ -33,6 +33,7 @@
 - [Instalação e Execução](#-instalação-e-execução)
   - [Pré-requisitos](#pré-requisitos)
   - [Variáveis de Ambiente](#-variáveis-de-ambiente)
+  - [Configuração do Supabase (passo a passo)](#-configuração-do-supabase-passo-a-passo)
   - [Instalação de Dependências](#-instalação-de-dependências)
   - [Como Executar a Aplicação](#-como-executar-a-aplicação)
 - [Deploy](#-deploy)
@@ -51,6 +52,7 @@
 * 🌐 **Demo Online:** _não publicada_ (a aplicação pode ser hospedada na Vercel ou Netlify — veja [Deploy](#-deploy)).
 * 📖 **Documentação:** este README.
 * 📦 **Dados:** [`src/data/pokedex-data.json`](src/data/pokedex-data.json).
+* 🗄️ **Banco de dados dos favoritos:** [`supabase/favoritos.sql`](supabase/favoritos.sql) e o passo a passo em [Configuração do Supabase](#-configuração-do-supabase-passo-a-passo).
 
 ---
 
@@ -74,7 +76,7 @@ A Pokédex nasceu como atividade acadêmica para praticar os conceitos fundament
 - 🧑‍🚀 **Treinadores:** nome, insígnias e Pokémon de cada treinador (clique abre os detalhes).
 - ⚠️ **Estado vazio:** mensagem amigável quando nenhum Pokémon é encontrado.
 - 🔗 **Filtros na URL:** `?busca=pika&tipo=5&ordem=speed` — dá para copiar o link, recarregar e usar o botão "voltar".
-- ⭐ **Favoritos:** salvos no `localStorage`, com filtro "apenas favoritos".
+- ⭐ **Favoritos no Supabase:** a estrela grava ou apaga o favorito no banco, e o botão **Favoritos** mostra só os marcados. Cada navegador tem os próprios favoritos, sem precisar de login. Sem o Supabase configurado, a Pokédex funciona normalmente e as estrelas ficam desativadas.
 - 📊 **Ordenação:** por ID, nome ou qualquer atributo.
 - 🎲 **Pokémon aleatório** e 🌙 **modo escuro**.
 - 📱 **Layout responsivo** (desktop, tablet e smartphone).
@@ -88,28 +90,35 @@ A Pokédex nasceu como atividade acadêmica para praticar os conceitos fundament
 * **Framework/Biblioteca:** React 19 (componentes funcionais e Hooks)
 * **Linguagem:** JavaScript ES6+ (JSX)
 * **Estilização:** CSS puro, um arquivo por componente, com variáveis CSS para o tema claro/escuro
-* **Gerenciamento de Estado:** `useState`, `useMemo`, `useCallback`, `useEffect` e Hooks próprios
+* **Ícones:** [lucide-react](https://lucide.dev/)
+* **Gerenciamento de Estado:** `useState`, `useMemo`, `useCallback`, `useEffect`, `useRef` e Hooks próprios
 * **Build Tool:** Vite 8
-* **Qualidade de código:** oxlint
+* **Qualidade de código:** ESLint (`npm run lint`) e oxlint (`npm run lint:oxlint`)
 
 ### 🖥️ Back-end
 
-* Não há back-end. Os dados vêm do arquivo JSON local fornecido na atividade.
+* Não há servidor próprio. Os dados dos Pokémon vêm do arquivo JSON local e os favoritos usam o **Supabase** como back-end pronto (BaaS).
+* **Banco de Dados:** PostgreSQL, hospedado no Supabase
+* **Acesso ao banco:** [`@supabase/supabase-js`](https://supabase.com/docs/reference/javascript/introduction), chamando funções SQL pela Data API (HTTPS)
+* **Segurança:** RLS (Row Level Security) ligado e funções SQL como único caminho de acesso
 
 ### ⚙️ Infraestrutura & Dados externos
 
 * **Imagens:** sprites oficiais da [PokéAPI](https://github.com/PokeAPI/sprites) (uso opcional, conforme o enunciado). A aplicação continua funcionando sem imagens.
-* **Hospedagem sugerida:** Vercel ou Netlify (arquivos estáticos).
+* **Supabase:** conta gratuita em [supabase.com](https://supabase.com/).
+* **Hospedagem sugerida:** Vercel ou Netlify (arquivos estáticos; veja as variáveis de ambiente em [Deploy](#-deploy)).
 
 ---
 
 ## 🏗 Arquitetura
 
-A aplicação é uma **SPA (Single Page Application)** em camadas simples, sem back-end:
+A aplicação é uma **SPA (Single Page Application)** em camadas simples, que fala direto com o Supabase, sem servidor próprio:
 
 - **Componentes (`components/`):** apenas interface; recebem dados e funções por **props**.
 - **Hooks (`hooks/`):** lógica de estado reutilizável (filtros na URL, favoritos, tema).
-- **Services (`services/`):** regras de negócio e acesso aos dados (filtrar, ordenar, resolver treinadores).
+- **Services (`services/`):** regras de negócio e acesso aos dados. `pokedexService` filtra, ordena e resolve treinadores; `favoritosService` conversa com o Supabase.
+- **Lib (`lib/`):** o cliente do Supabase, criado uma vez só (e `null` quando o `.env.local` não está preenchido).
+- **Utils (`utils/`):** `tokenDoNavegador`, que gera e guarda o identificador anônimo de cada navegador.
 - **Config (`config/`):** constantes (cores dos tipos, atributos, opções de ordenação).
 - **Dados (`data/`):** `pokedex-data.json`.
 
@@ -117,6 +126,9 @@ A aplicação é uma **SPA (Single Page Application)** em camadas simples, sem b
 - O estado dos filtros fica **na URL** (padrão adotado nos projetos da disciplina), o que permite compartilhar buscas.
 - A lista exibida é um **estado derivado** (`useMemo`): não é guardada, é recalculada a partir dos filtros.
 - O `App.jsx` concentra o estado e passa tudo por props ("state lifting"), mantendo os componentes simples e reutilizáveis.
+- Os favoritos **não usam login**: cada navegador gera um `token` (UUID) na primeira visita e o guarda no `localStorage`. É esse token que separa os favoritos de cada pessoa na tabela.
+- O navegador **não lê nem grava a tabela diretamente**. O RLS fica ligado e as permissões da tabela são removidas; o acesso é só pelas funções SQL `listar_favoritos` e `alternar_favorito`, que recebem o token. Assim ninguém consegue listar os favoritos dos outros, mesmo com a chave pública no JavaScript.
+- Sem Supabase configurado, o app não quebra: o cliente não é criado e as estrelas ficam desativadas, com um aviso na tela.
 
 **Fluxo de dados:**
 
@@ -125,14 +137,16 @@ flowchart LR
   JSON[(pokedex-data.json)] --> S[pokedexService]
   URL[URL ?busca&tipo&ordem] --> H[useFiltrosDaUrl]
   H --> A[App.jsx]
-  F[useFavoritos / localStorage] --> A
+  F[useFavoritos] --> A
+  FS[favoritosService] --> F
+  FS -->|rpc, HTTPS| DB[(Supabase / PostgreSQL)]
   S --> A
   A -->|props| L[ListaPokemon → CardPokemon]
   A -->|props| D[DetalhesPokemon]
   A -->|props| T[ListaTreinadores]
 ```
 
-**Trade-offs:** como todos os dados são carregados no navegador e filtrados em memória, a solução é ótima para 151 Pokémon, mas não escalaria para milhares de registros sem paginação ou uma API.
+**Trade-offs:** como todos os dados dos Pokémon são carregados no navegador e filtrados em memória, a solução é ótima para 151 Pokémon, mas não escalaria para milhares de registros sem paginação ou uma API. Como não há login, quem limpar os dados do navegador (ou trocar de aparelho) perde o acesso aos favoritos antigos.
 
 ---
 
@@ -142,12 +156,95 @@ flowchart LR
 
 * **Node.js:** versão LTS (v20.19 ou superior recomendada, exigência do Vite 8)
 * **Gerenciador de Pacotes:** npm ou yarn
+* **Conta no Supabase** (gratuita), necessária só para os favoritos. Sem ela a Pokédex funciona, mas as estrelas ficam desativadas.
 
 ---
 
 ### 🔑 Variáveis de Ambiente
 
-Este projeto **não utiliza variáveis de ambiente**: não há chaves de API nem back-end.
+As variáveis ficam num arquivo **`.env.local`** na raiz do projeto (ele está no `.gitignore` e **não sobe para o GitHub**). O arquivo **`.env.example`** mostra quais variáveis existem.
+
+```bash
+cp .env.example .env.local
+```
+
+| Variável | Descrição | Exemplo |
+| :--- | :--- | :--- |
+| `VITE_SUPABASE_URL` | URL do seu projeto no Supabase. | `https://abcdefghijkl.supabase.co` |
+| `VITE_SUPABASE_KEY` | Chave **publicável** (ou `anon`) do projeto. | `sb_publishable_...` |
+
+> 💡 **Prefixo `VITE_`:** o Vite só expõe ao código do navegador as variáveis que começam com `VITE_`. Depois de criar ou mudar o `.env.local`, **reinicie o `npm run dev`**.
+
+> ⛔ **Nunca use a `secret key` (`sb_secret_...`) nem a `service_role`.** Tudo que começa com `VITE_` vai para o JavaScript do navegador, onde qualquer visitante pode ler, e essas chaves **ignoram o RLS** e dão acesso total ao banco. A chave publicável é pública por natureza, e quem protege os dados é o RLS junto com as funções do `supabase/favoritos.sql`.
+
+Se o `.env.local` não existir (ou ainda tiver os valores `COLE_...` do exemplo), a Pokédex abre normalmente, as estrelas ficam desativadas e aparece o aviso **"Favoritos desativados"**.
+
+---
+
+### 🗄 Configuração do Supabase (passo a passo)
+
+Os favoritos ficam em uma tabela PostgreSQL no Supabase. Faça isto **uma vez**:
+
+#### 1. Criar a conta e o projeto
+
+1. Acesse [supabase.com](https://supabase.com/) e crie uma conta (dá para entrar com o GitHub).
+2. No painel, clique em **New project**.
+3. Preencha **Name** (ex.: `pokedex`), **Database Password** (crie uma senha e guarde; ela **não** vai para o `.env`) e **Region** (no Brasil, **South America (São Paulo)**; a região não pode ser trocada depois).
+4. Clique em **Create new project** e espere o banco ficar pronto.
+
+#### 2. Criar a tabela e as funções (obrigatório)
+
+1. No menu lateral, abra o **SQL Editor** e clique em **New query**.
+2. Cole todo o conteúdo do arquivo [`supabase/favoritos.sql`](supabase/favoritos.sql).
+3. Clique em **Run**. O script pode ser executado de novo sem problema.
+
+Ele cria:
+
+| Objeto | O que faz |
+| :--- | :--- |
+| Tabela `favoritos` | Colunas `token`, `pokemon_id` e `criado_em`, com chave primária `(token, pokemon_id)` |
+| `check` no `pokemon_id` | Aceita só IDs de **1 a 151** |
+| RLS ligado + `revoke all` | O navegador **não** lê, insere, altera nem apaga a tabela direto |
+| Função `listar_favoritos` | Devolve os favoritos de **um** token |
+| Função `alternar_favorito` | Se já é favorito, apaga e devolve `false`; senão, insere e devolve `true` |
+| `grant execute` | Libera só essas duas funções para quem usa a chave pública |
+| `notify pgrst` | Atualiza o cache da API para ela enxergar as funções na hora |
+
+#### 3. Copiar a URL e a chave publicável
+
+1. Em **Project Settings → Data API**, copie a **Project URL** (`https://<seu-projeto>.supabase.co`).
+2. Em **Project Settings → API Keys**, copie a **Publishable key** (`sb_publishable_...`). A chave `anon` (legacy) funciona do mesmo jeito.
+
+Os dois também aparecem no botão **Connect**, na barra superior do projeto.
+
+#### 4. Preencher o `.env.local`
+
+Crie o arquivo a partir do exemplo e cole os valores:
+
+```bash
+cp .env.example .env.local
+```
+
+```properties
+VITE_SUPABASE_URL=https://abcdefghijkl.supabase.co
+VITE_SUPABASE_KEY=sb_publishable_xxxxxxxxxxxxxxxxxxxx
+```
+
+#### 5. Conferir se funcionou
+
+1. Instale as dependências ([próxima seção](#-instalação-de-dependências)), rode `npm run dev` e favorite 2 ou 3 Pokémon.
+2. Recarregue a página (F5): as estrelas devem continuar marcadas.
+3. No Supabase, abra **Table Editor → favoritos**: as linhas devem aparecer lá.
+
+#### Problemas comuns
+
+| Sintoma | Causa provável | Como resolver |
+| :--- | :--- | :--- |
+| Aviso **"Favoritos desativados"** | `.env.local` não existe, tem valores de exemplo ou o servidor não foi reiniciado | Preencha o arquivo e reinicie o `npm run dev` |
+| Erro `Could not find the function ... in the schema cache` | O SQL não foi executado ou o cache da API está antigo | Rode o `supabase/favoritos.sql` de novo (ele atualiza o cache) |
+| Erro `permission denied` ou `401` | Chave errada, ou uma `secret key` colada no lugar da publicável | Copie de novo a **Publishable key** |
+| A estrela marca, mas some ao recarregar | Erro ao salvar (veja a mensagem na tela e o console, `F12`) | Confira a URL, a chave e se o SQL foi executado |
+| Favoritos sumiram | O `localStorage` do navegador foi limpo (o token mudou) ou é outro navegador | Esperado: não há login, então cada navegador tem os seus favoritos |
 
 ---
 
@@ -192,7 +289,11 @@ npm install -g serve
 serve -s dist
 ```
 
-3. **Hospedagem:** envie o repositório para a Vercel ou Netlify (preset **Vite**; comando `npm run build`; pasta de saída `dist`). Não é necessário configurar variáveis de ambiente.
+3. **Hospedagem:** envie o repositório para a Vercel ou Netlify (preset **Vite**; comando `npm run build`; pasta de saída `dist`).
+
+4. **Variáveis de ambiente:** no painel do provedor (na Vercel: *Project Settings → Environment Variables*), crie `VITE_SUPABASE_URL` e `VITE_SUPABASE_KEY` com os mesmos valores do `.env.local`.
+
+> 🔑 O Vite grava essas variáveis no JavaScript **durante o build**. Se você criar ou mudar as variáveis depois de publicar, faça um **novo deploy** para elas valerem. Use sempre a chave **publicável**, nunca a `secret key` nem a `service_role`.
 
 ---
 
@@ -200,14 +301,20 @@ serve -s dist
 
 ```
 .
-├── .gitignore                    # 🧹 Ignora node_modules e dist.
+├── .env.example                  # 🧩 Variáveis necessárias (sem valores reais). Copie para .env.local.
+├── .env.local                    # 🔒 Suas chaves do Supabase (não versionado).
+├── .gitignore                    # 🧹 Ignora node_modules, dist, .env e .env.local.
 ├── README.md                     # 📘 Documentação principal do projeto.
 ├── LICENSE                       # ⚖️ Licença MIT.
 ├── CONTRIBUTING.md               # 🤝 Guia de contribuição.
 ├── index.html                    # 🌐 Página base da SPA.
 ├── package.json                  # 📦 Dependências e scripts.
+├── eslint.config.js              # ✨ Regras do ESLint.
+├── /supabase                     # 🗄️ Banco de dados
+│   └── favoritos.sql             #    Tabela, RLS e funções dos favoritos (rode no SQL Editor).
 ├── vite.config.js                # ⚡ Configuração do Vite.
 ├── /public                       # 📂 Arquivos estáticos.
+├── /docs                         # 🖼️ Capturas de tela usadas neste README.
 └── /src                          # 📂 Código-fonte React
     ├── main.jsx                  # 🚀 Ponto de entrada.
     ├── App.jsx / App.css         # 🧠 Estado principal e layout.
@@ -223,7 +330,9 @@ serve -s dist
     │   ├── /EtiquetaTipo         #    Etiqueta colorida do tipo.
     │   └── /ListaTreinadores     #    Treinadores e seus Pokémon.
     ├── /hooks                    # 🎣 useFiltrosDaUrl, useFavoritos, useTema.
-    ├── /services                 # 🔌 pokedexService (filtros, ordenação, treinadores).
+    ├── /services                 # 🔌 pokedexService (filtros, ordenação, treinadores) e favoritosService (Supabase).
+    ├── /lib                      # 🔗 supabase.js (cliente do Supabase).
+    ├── /utils                    # 🛠️ tokenDoNavegador.js (identificador anônimo do navegador).
     ├── /config                   # 🔧 Cores dos tipos, atributos e ordenações.
     └── /data                     # 💾 pokedex-data.json
 ```
@@ -232,16 +341,23 @@ serve -s dist
 
 ## 🎥 Demonstração
 
-> Substitua os espaços abaixo por prints/GIFs da aplicação (hospede em `docs/` do repositório ou no GitHub Pages).
-
 ### 🌐 Aplicação Web
 
-| Tela | Captura de Tela |
+| Pokédex (lista e pesquisa) | Filtro por tipo |
 | :---: | :---: |
-| **Pokédex (lista, pesquisa e filtro por tipo)** | _Sua imagem aqui_ |
-| **Detalhes do Pokémon (modal)** | _Sua imagem aqui_ |
-| **Treinadores** | _Sua imagem aqui_ |
-| **Modo escuro** | _Sua imagem aqui_ |
+| <img src="docs/home.png" alt="Tela inicial da Pokédex" width="420"> | <img src="docs/filtro-tipo.png" alt="Pokémon filtrados pelo tipo Fire" width="420"> |
+
+| Detalhes do Pokémon | Favoritos (Supabase) |
+| :---: | :---: |
+| <img src="docs/detalhes.png" alt="Modal com os detalhes do Pikachu" width="420"> | <img src="docs/favoritos.png" alt="Lista apenas com os Pokémon favoritados" width="420"> |
+
+| Treinadores | Modo escuro |
+| :---: | :---: |
+| <img src="docs/treinadores.png" alt="Tela de treinadores e seus times" width="420"> | <img src="docs/modo-escuro.png" alt="Pokédex no modo escuro" width="420"> |
+
+### 📱 Celular
+
+<img src="docs/mobile.png" alt="Pokédex em tela de celular" width="260">
 
 ---
 
@@ -250,8 +366,9 @@ serve -s dist
 O projeto não possui testes automatizados. A verificação é feita com análise estática e build:
 
 ```bash
-npm run lint    # análise estática (oxlint)
-npm run build   # garante que o projeto compila
+npm run lint          # análise estática (ESLint)
+npm run lint:oxlint   # análise estática (oxlint)
+npm run build         # garante que o projeto compila
 ```
 
 **Roteiro de teste manual:**
@@ -261,7 +378,8 @@ npm run build   # garante que o projeto compila
 4. Digitar `xyz` → mensagem "Nenhum Pokémon encontrado".
 5. Clicar em um card → modal com todos os atributos; testar `←`, `→` e `Esc`.
 6. Abrir **Treinadores** → conferir nome, insígnias e Pokémon (ex.: Ash, 9 insígnias).
-7. Favoritar um Pokémon, recarregar a página e conferir que continua favorito.
+7. Com o Supabase configurado: favoritar um Pokémon, recarregar a página e conferir que continua favorito (e que a linha aparece em **Table Editor → favoritos**).
+8. Sem o `.env.local`: a Pokédex abre, aparece o aviso "Favoritos desativados" e as estrelas não respondem.
 
 ---
 
@@ -269,6 +387,8 @@ npm run build   # garante que o projeto compila
 
 - [React](https://react.dev/)
 - [Vite](https://vite.dev/)
+- [Supabase](https://supabase.com/docs), [supabase-js](https://supabase.com/docs/reference/javascript/introduction), [funções com `rpc`](https://supabase.com/docs/reference/javascript/rpc) e [Row Level Security](https://supabase.com/docs/guides/database/postgres/row-level-security)
+- [lucide-react](https://lucide.dev/guide/packages/lucide-react) (ícones)
 - [PokéAPI Sprites](https://github.com/PokeAPI/sprites) (imagens) e [PokéAPI](https://pokeapi.co/)
 - [MDN Web Docs](https://developer.mozilla.org/) (History API, `localStorage`, CSS)
 - Enunciado da Atividade 03 e projetos de exemplo do [Prof. Dr. João Paulo Aramuni](https://github.com/joaopauloaramuni)
@@ -279,7 +399,7 @@ npm run build   # garante que o projeto compila
 
 | Nome | GitHub |
 | :--- | :--- |
-| **Samuel Ferreira** | [@seu-usuario](https://github.com/seu-usuario) |
+| **Samuel Ferreira** | [@SamuelFerr0](https://github.com/SamuelFerr0) |
 | **Crispim Bruno** | [@usuario-do-colega](https://github.com/usuario-do-colega) |
 
 > Desenvolvido em dupla com a metodologia de **Pair Programming**.

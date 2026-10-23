@@ -11,7 +11,6 @@ import useFavoritos from "./hooks/useFavoritos";
 import useFiltrosDaUrl from "./hooks/useFiltrosDaUrl";
 import useTema from "./hooks/useTema";
 import {
-
   filtrarPokemons,
   listarPokemons,
   listarTipos,
@@ -30,7 +29,7 @@ function App() {
 
   const { filtros, alterarFiltro, limparFiltros } =
     useFiltrosDaUrl(NOMES_FILTROS);
-  const { favoritos, alternarFavorito } = useFavoritos();
+  const { favoritos, alternarFavorito, habilitado, erro } = useFavoritos();
   const { escuro, alternarTema } = useTema();
 
   const pokemons = useMemo(
@@ -75,6 +74,12 @@ function App() {
       />
 
       <main className="container">
+        {!habilitado && (
+          <p className="aviso">
+            Favoritos desativados: preencha o .env.local com os dados do Supabase.
+          </p>
+        )}
+        {erro && <p className="aviso aviso--erro">{erro}</p>}
         {tela === "pokedex" ? (
           <>
             <div className="toolbar">
@@ -109,7 +114,7 @@ function App() {
                     setApenasFavoritos(false);
                   }}
                 >
-                <X className="icone" size={16} /> Limpar
+                  <X className="icone" size={16} /> Limpar
                 </button>
               )}
             </div>
