@@ -1,0 +1,14 @@
+.trainers { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.trainer { background: var(--surface); border-radius: 18px; padding: 1.2rem; box-shadow: var(--shadow); }
+.trainer h3 { display: flex; justify-content: space-between; align-items: center; }
+.trainer__badges { color: var(--muted); font-size: .9rem; margin: .3rem 0 .8rem; }
+.trainer__badges .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #f5b301; margin-right: 3px; }
+.trainer__badges .dot.off { background: var(--border); }
+.team { display: flex; flex-wrap: wrap; gap: .4rem; }
+.team button {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+  padding: .2rem .5rem .2rem .2rem; display: flex; align-items: center; gap: .2rem;
+  color: var(--text); font-size: .8rem; text-transform: capitalize; transition: transform .15s;
+}
+.team button:hover { transform: scale(1.07); }
+.team img { width: 34px; height: 34px; object-fit: contain; }

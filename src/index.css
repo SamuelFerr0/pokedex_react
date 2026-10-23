@@ -1,0 +1,33 @@
+:root {
+  --bg: #f1f3f9; --surface: #fff; --text: #1d2233; --muted: #6b7288;
+  --accent: #e3350d; --border: #dfe3ee; --shadow: 0 4px 14px rgba(20, 30, 70, .1);
+}
+[data-theme="dark"] {
+  --bg: #12141c; --surface: #1d212e; --text: #eef0f8; --muted: #9aa1b8;
+  --border: #2d3245; --shadow: 0 4px 14px rgba(0, 0, 0, .5);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: var(--bg); color: var(--text); transition: background .3s, color .3s;
+}
+button { font: inherit; cursor: pointer; }
+
+.type-typeless { --type-color: #68a090; }
+.type-normal { --type-color: #a8a77a; }
+.type-fire { --type-color: #ee8130; }
+.type-water { --type-color: #6390f0; }
+.type-grass { --type-color: #7ac74c; }
+.type-electric { --type-color: #f7d02c; }
+.type-ice { --type-color: #96d9d6; }
+.type-fighting { --type-color: #c22e28; }
+.type-poison { --type-color: #a33ea1; }
+.type-ground { --type-color: #e2bf65; }
+.type-flying { --type-color: #a98ff3; }
+.type-psychic { --type-color: #f95587; }
+.type-bug { --type-color: #a6b91a; }
+.type-rock { --type-color: #b6a136; }
+.type-ghost { --type-color: #735797; }
+.type-dark { --type-color: #705746; }
+.type-dragon { --type-color: #6f35fc; }
+.type-steel { --type-color: #b7b7ce; }
