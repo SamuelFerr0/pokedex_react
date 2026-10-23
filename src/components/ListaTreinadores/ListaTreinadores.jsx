@@ -1,3 +1,4 @@
+import { User } from "lucide-react";
 import { urlImagem } from "../../services/pokedexService";
 import "./ListaTreinadores.css";
 
@@ -8,7 +9,7 @@ function ListaTreinadores({ treinadores, onSelecionar }) {
     <div className="trainers">
       {treinadores.map((t) => (
         <section className="trainer" key={t.id}>
-          <h3> {t.nome}</h3>
+          <h3><User className="icone" size={18} /> {t.nome}</h3>
           <div className="trainer__badges">
             {Array.from({ length: MAX_INSIGNIAS }, (_, i) => (
               <span key={i} className={`dot ${i < t.insignias ? "" : "off"}`} />

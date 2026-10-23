@@ -1,3 +1,4 @@
+import { Dices, Star, X } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import BarraBusca from "./components/BarraBusca/BarraBusca";
 import Cabecalho from "./components/Cabecalho/Cabecalho";
@@ -10,6 +11,7 @@ import useFavoritos from "./hooks/useFavoritos";
 import useFiltrosDaUrl from "./hooks/useFiltrosDaUrl";
 import useTema from "./hooks/useTema";
 import {
+
   filtrarPokemons,
   listarPokemons,
   listarTipos,
@@ -94,10 +96,10 @@ function App() {
                 className={`btn ${apenasFavoritos ? "on" : ""}`}
                 onClick={() => setApenasFavoritos((v) => !v)}
               >
-                ★ Favoritos ({favoritos.length})
+                <Star className="icone" size={16} fill={apenasFavoritos ? "currentColor" : "none"} /> Favoritos ({favoritos.length})
               </button>
               <button className="btn" onClick={sortear}>
-                Aleatório
+                <Dices className="icone" size={16} /> Aleatório
               </button>
               {filtrosAtivos && (
                 <button
@@ -107,7 +109,7 @@ function App() {
                     setApenasFavoritos(false);
                   }}
                 >
-                   Limpar
+                <X className="icone" size={16} /> Limpar
                 </button>
               )}
             </div>

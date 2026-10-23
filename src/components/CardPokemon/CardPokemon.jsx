@@ -1,3 +1,4 @@
+import { Star } from "lucide-react";
 import { urlImagem } from "../../services/pokedexService";
 import EtiquetaTipo from "../EtiquetaTipo/EtiquetaTipo";
 import "./CardPokemon.css";
@@ -24,7 +25,7 @@ function CardPokemon({ pokemon, favorito, onFavoritar, onSelecionar }) {
           onFavoritar(id);
         }}
       >
-        {favorito ? "★" : "☆"}
+        <Star size={22} fill={favorito ? "currentColor" : "none"} />
       </button>
       <img src={urlImagem(id)} alt={name} loading="lazy" />
       <h3>{name}</h3>

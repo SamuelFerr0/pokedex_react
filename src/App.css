@@ -1,5 +1,5 @@
 .header {
-  background: linear-gradient(135deg, #e3350d, #b3200a);
+  background: var(--accent);
   color: #fff;
   padding: 1.2rem 1rem;
   position: sticky;
@@ -129,4 +129,8 @@
 .empty span {
   font-size: 3rem;
   display: block;
+}
+
+.icone {
+  vertical-align: -0.15em;
 }

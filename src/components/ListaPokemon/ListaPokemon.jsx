@@ -1,10 +1,11 @@
+import { Search } from "lucide-react";
 import CardPokemon from "../CardPokemon/CardPokemon";
 
 function ListaPokemon({ pokemons, favoritos, onFavoritar, onSelecionar }) {
   if (pokemons.length === 0) {
     return (
       <div className="empty">
-        <span></span>
+        <span><Search size={48} /></span>
         Nenhum Pokémon encontrado. Tente outra pesquisa ou filtro.
       </div>
     );

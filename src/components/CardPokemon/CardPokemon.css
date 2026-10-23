@@ -5,15 +5,14 @@
 .card {
   background: var(--surface); border-radius: 18px; padding: 1rem; text-align: center;
   box-shadow: var(--shadow); cursor: pointer; position: relative; overflow: hidden;
-  transition: transform .2s, box-shadow .2s; border-top: 5px solid var(--type-color);
+  transition: transform .2s, box-shadow .2s;
   animation: pop .35s ease both;
 }
 .card:hover { transform: translateY(-6px) scale(1.02); }
-.card::before {
-  content: ''; position: absolute; inset: 0; opacity: .12; pointer-events: none;
-  background: radial-gradient(circle at 50% 30%, var(--type-color), transparent 70%);
+.card img {
+  width: 130px; height: 130px; object-fit: contain; position: relative;
+  border-radius: 50%; background: color-mix(in srgb, var(--type-color) 20%, transparent);
 }
-.card img { width: 130px; height: 130px; object-fit: contain; position: relative; }
 .card__id { position: absolute; top: .6rem; left: .8rem; color: var(--muted); font-weight: 700; font-size: .85rem; }
 .card__fav {
   position: absolute; top: .4rem; right: .6rem; background: none; border: 0;

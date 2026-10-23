@@ -1,3 +1,4 @@
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { useEffect } from "react";
 import { ATRIBUTOS } from "../../config/tiposConfig";
 import { urlImagem } from "../../services/pokedexService";
@@ -23,7 +24,7 @@ function DetalhesPokemon({ pokemon, onFechar, onNavegar }) {
     <div className="overlay" onClick={onFechar}>
       <div className={`modal type-${tipoPrincipal}`} onClick={(e) => e.stopPropagation()}>
         <button className="modal__close" onClick={onFechar} aria-label="Fechar">
-          ✕
+          <X size={20} />
         </button>
 
         <div className="modal__top">
@@ -46,10 +47,10 @@ function DetalhesPokemon({ pokemon, onFechar, onNavegar }) {
           </p>
           <div className="modal__nav">
             <button className="btn" onClick={() => onNavegar(-1)}>
-              ← Anterior
+              <ArrowLeft className="icone" size={16} /> Anterior
             </button>
             <button className="btn" onClick={() => onNavegar(1)}>
-              Próximo →
+              Próximo <ArrowRight className="icone" size={16} />
             </button>
           </div>
         </div>
