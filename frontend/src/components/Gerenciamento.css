@@ -1,0 +1,139 @@
+input,
+select {
+  font: inherit;
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.pokemon-form {
+  margin: auto;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  width: min(650px, calc(100% - 24px));
+  max-height: 90vh;
+  overflow: auto;
+}
+.pokemon-form::backdrop {
+  background: #0009;
+}
+.pokemon-form p {
+  margin: 12px 0;
+}
+.pokemon-form fieldset {
+  border: 0;
+  padding: 8px 0;
+  min-width: 0;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.form-grid label,
+.design-page > section > label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-grid input,
+.design-page input {
+  padding: 10px;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--bg);
+  color: var(--text);
+}
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+.type-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 0;
+}
+.type-options label {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.primary {
+  background: var(--accent) !important;
+  color: white !important;
+}
+.danger {
+  color: #c32f25;
+}
+.design-page {
+  max-width: 900px;
+  margin: auto;
+}
+.design-page > section {
+  padding: 24px;
+  margin: 20px 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.design-page h3 {
+  margin-bottom: 16px;
+}
+.design-paleta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+}
+.design-paleta li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.design-paleta span {
+  flex: 0 0 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.design-paleta p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+@media (max-width: 500px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .header__row,
+  .nav {
+    flex-wrap: wrap;
+  }
+  .toolbar {
+    flex-wrap: wrap;
+  }
+}
+
+.sem-imagem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+  padding: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}

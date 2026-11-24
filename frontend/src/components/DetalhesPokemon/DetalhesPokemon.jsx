@@ -1,12 +1,19 @@
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { useEffect } from "react";
 import { ATRIBUTOS } from "../../config/tiposConfig";
-import { urlImagem } from "../../services/pokedexService";
+import ImagemPokemon from "../ImagemPokemon";
 import BarraAtributo from "../BarraAtributo/BarraAtributo";
 import EtiquetaTipo from "../EtiquetaTipo/EtiquetaTipo";
 import "./DetalhesPokemon.css";
 
-function DetalhesPokemon({ pokemon, onFechar, onNavegar }) {
+function DetalhesPokemon({
+  pokemon,
+  onFechar,
+  onNavegar,
+  onEditar,
+  onExcluir,
+  removendo,
+}) {
   useEffect(() => {
     const aoTeclar = (e) => {
       if (e.key === "Escape") onFechar();
@@ -22,7 +29,13 @@ function DetalhesPokemon({ pokemon, onFechar, onNavegar }) {
 
   return (
     <div className="overlay" onClick={onFechar}>
-      <div className={`modal type-${tipoPrincipal}`} onClick={(e) => e.stopPropagation()}>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Detalhes de ${pokemon.name}`}
+        className={`modal type-${tipoPrincipal}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className="modal__close" onClick={onFechar} aria-label="Fechar">
           <X size={20} />
         </button>
@@ -30,7 +43,7 @@ function DetalhesPokemon({ pokemon, onFechar, onNavegar }) {
         <div className="modal__top">
           <small>#{String(pokemon.id).padStart(3, "0")}</small>
           <h2>{pokemon.name}</h2>
-          <img src={urlImagem(pokemon.id)} alt={pokemon.name} />
+          <ImagemPokemon key={pokemon.id} id={pokemon.id} nome={pokemon.name} />
           <div className="badges">
             {pokemon.types.map((t) => (
               <EtiquetaTipo key={t.id} nome={t.name} />
@@ -40,11 +53,27 @@ function DetalhesPokemon({ pokemon, onFechar, onNavegar }) {
 
         <div className="modal__body">
           {ATRIBUTOS.map(([chave, rotulo]) => (
-            <BarraAtributo key={chave} rotulo={rotulo} valor={pokemon.stats[chave]} />
+            <BarraAtributo
+              key={chave}
+              rotulo={rotulo}
+              valor={pokemon.stats[chave]}
+            />
           ))}
           <p className="modal__total">
             Total: <b>{total}</b>
           </p>
+          <div className="form-actions">
+            <button className="btn" onClick={onEditar}>
+              Editar Pokémon
+            </button>
+            <button
+              className="btn danger"
+              disabled={removendo}
+              onClick={onExcluir}
+            >
+              {removendo ? "Excluindo…" : "Excluir Pokémon"}
+            </button>
+          </div>
           <div className="modal__nav">
             <button className="btn" onClick={() => onNavegar(-1)}>
               <ArrowLeft className="icone" size={16} /> Anterior
