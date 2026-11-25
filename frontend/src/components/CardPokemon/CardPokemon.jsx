@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import { urlImagem } from "../../services/pokedexService";
+import ImagemPokemon from "../ImagemPokemon";
 import EtiquetaTipo from "../EtiquetaTipo/EtiquetaTipo";
 import "./CardPokemon.css";
 
@@ -15,7 +15,10 @@ function CardPokemon({ pokemon, favorito, onFavoritar, onSelecionar }) {
   ];
 
   return (
-    <article className={`card type-${types[0].name.toLowerCase()}`} onClick={() => onSelecionar(pokemon)}>
+    <article
+      className={`card type-${types[0].name.toLowerCase()}`}
+      onClick={() => onSelecionar(pokemon)}
+    >
       <span className="card__id">#{String(id).padStart(3, "0")}</span>
       <button
         className={`card__fav ${favorito ? "on" : ""}`}
@@ -27,7 +30,7 @@ function CardPokemon({ pokemon, favorito, onFavoritar, onSelecionar }) {
       >
         <Star size={22} fill={favorito ? "currentColor" : "none"} />
       </button>
-      <img src={urlImagem(id)} alt={name} loading="lazy" />
+      <ImagemPokemon key={id} id={id} nome={name} loading="lazy" />
       <h3>{name}</h3>
       <div className="badges">
         {types.map((t) => (
