@@ -5,7 +5,9 @@ function ListaPokemon({ pokemons, favoritos, onFavoritar, onSelecionar }) {
   if (pokemons.length === 0) {
     return (
       <div className="empty">
-        <span><Search size={48} /></span>
+        <span>
+          <Search size={48} />
+        </span>
         Nenhum Pokémon encontrado. Tente outra pesquisa ou filtro.
       </div>
     );

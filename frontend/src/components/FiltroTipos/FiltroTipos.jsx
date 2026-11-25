@@ -1,7 +1,10 @@
 function FiltroTipos({ tipos, selecionado, onSelecionar }) {
   return (
     <div className="filters">
-      <button className={`chip all ${selecionado === "" ? "active" : ""}`} onClick={() => onSelecionar("")}>
+      <button
+        className={`chip all ${selecionado === "" ? "active" : ""}`}
+        onClick={() => onSelecionar("")}
+      >
         Todos
       </button>
       {tipos.map((tipo) => {
