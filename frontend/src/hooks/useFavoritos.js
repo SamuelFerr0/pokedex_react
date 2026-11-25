@@ -13,7 +13,11 @@ export default function useFavoritos() {
 
     buscarFavoritos()
       .then((ids) => montado && setFavoritos(ids))
-      .catch((e) => montado && setErro(`Não deu para carregar os favoritos: ${e.message}`));
+      .catch(
+        (e) =>
+          montado &&
+          setErro(`Não deu para carregar os favoritos: ${e.message}`),
+      );
 
     return () => {
       montado = false;

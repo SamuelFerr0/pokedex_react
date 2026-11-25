@@ -3,7 +3,9 @@ import { useCallback, useEffect, useState } from "react";
 export default function useFiltrosDaUrl(nomes) {
   const lerDaUrl = useCallback(() => {
     const params = new URLSearchParams(window.location.search);
-    return Object.fromEntries(nomes.map((nome) => [nome, params.get(nome) ?? ""]));
+    return Object.fromEntries(
+      nomes.map((nome) => [nome, params.get(nome) ?? ""]),
+    );
   }, [nomes]);
 
   const [filtros, setFiltros] = useState(lerDaUrl);
@@ -20,10 +22,14 @@ export default function useFiltrosDaUrl(nomes) {
       if (String(valor).trim() === "") params.delete(nome);
       else params.set(nome, valor);
       const busca = params.toString();
-      window.history.replaceState(null, "", busca ? `?${busca}` : window.location.pathname);
+      window.history.replaceState(
+        null,
+        "",
+        busca ? `?${busca}` : window.location.pathname,
+      );
       setFiltros(lerDaUrl());
     },
-    [lerDaUrl]
+    [lerDaUrl],
   );
 
   const limparFiltros = useCallback(() => {

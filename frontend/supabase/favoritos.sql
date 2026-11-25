@@ -1,15 +1,22 @@
 create table if not exists public.favoritos (
   token      uuid        not null,
-  pokemon_id smallint    not null check (pokemon_id between 1 and 151),
+  pokemon_id integer     not null check (pokemon_id between 1 and 99999),
   criado_em  timestamptz not null default now(),
   primary key (token, pokemon_id)
 );
 
+alter table public.favoritos alter column pokemon_id type integer;
+alter table public.favoritos drop constraint if exists favoritos_pokemon_id_check;
+alter table public.favoritos add constraint favoritos_pokemon_id_check
+  check (pokemon_id between 1 and 99999);
+
 alter table public.favoritos enable row level security;
 revoke all on public.favoritos from anon, authenticated;
 
+drop function if exists public.listar_favoritos(uuid);
+
 create or replace function public.listar_favoritos(p_token uuid)
-returns table (pokemon_id smallint)
+returns table (pokemon_id integer)
 language sql
 stable
 security definer
