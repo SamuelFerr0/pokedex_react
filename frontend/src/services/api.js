@@ -1,6 +1,6 @@
 const API = import.meta.env.VITE_API_URL || "";
 
-async function requisicao(caminho, options = {}) {
+export async function requisicao(caminho, options = {}) {
   let response;
   try {
     response = await fetch(`${API}/api/${caminho}`, options);

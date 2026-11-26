@@ -18,6 +18,6 @@ public class CorsConfig implements WebMvcConfigurer {
         .addMapping("/api/**")
         .allowedOrigins(origins.split(","))
         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-        .allowedHeaders("Content-Type");
+        .allowedHeaders("Content-Type", "X-Pokedex-Token");
   }
 }

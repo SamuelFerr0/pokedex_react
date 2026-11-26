@@ -1,22 +1,17 @@
-import { supabase } from "../lib/supabase";
+import { requisicao } from "./api";
 import { tokenDoNavegador } from "../utils/tokenDoNavegador";
 
-async function chamar(funcao, parametros) {
-  const { data, error } = await supabase.rpc(funcao, {
-    p_token: tokenDoNavegador(),
-    ...parametros,
+function headers() {
+  return { "X-Pokedex-Token": tokenDoNavegador() };
+}
+
+export function buscarFavoritos() {
+  return requisicao("favoritos", { headers: headers() });
+}
+
+export function salvarFavorito(pokemonId, favoritar) {
+  return requisicao(`favoritos/${pokemonId}`, {
+    method: favoritar ? "PUT" : "DELETE",
+    headers: headers(),
   });
-  if (error) throw new Error(error.message);
-  return data;
-}
-
-export async function buscarFavoritos() {
-  const linhas = await chamar("listar_favoritos");
-  return (linhas ?? []).map((linha) => linha.pokemon_id);
-}
-
-export async function alternarNoBanco(pokemonId) {
-  return (
-    (await chamar("alternar_favorito", { p_pokemon_id: pokemonId })) === true
-  );
 }

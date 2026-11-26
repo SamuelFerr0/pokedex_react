@@ -112,7 +112,7 @@ function App() {
 
   const { filtros, alterarFiltro, limparFiltros } =
     useFiltrosDaUrl(NOMES_FILTROS);
-  const { favoritos, alternarFavorito, habilitado, erro } = useFavoritos();
+  const { favoritos, alternarFavorito, erro } = useFavoritos();
   const { escuro, alternarTema } = useTema();
 
   const pokemons = useMemo(
@@ -157,12 +157,6 @@ function App() {
       />
 
       <main className="container">
-        {!habilitado && (
-          <p className="aviso">
-            Favoritos desativados: preencha o .env.local com os dados do
-            Supabase.
-          </p>
-        )}
         {erro && <p className="aviso aviso--erro">{erro}</p>}
         {erroApi && (
           <p className="aviso aviso--erro" role="alert">

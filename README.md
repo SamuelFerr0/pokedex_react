@@ -33,7 +33,7 @@ Continuação da Pokédex React da Atividade 03, com API Spring Boot e MongoDB. 
 
 - Cadastro, edição e exclusão de Pokémon pela interface.
 - Consulta por nome, filtro por tipo e visualização de atributos.
-- Consulta a treinadores, favoritos opcionais e página Design.
+- Consulta a treinadores, favoritos e página Design.
 
 ## 🛠 Tecnologias Utilizadas
 
@@ -41,7 +41,7 @@ Continuação da Pokédex React da Atividade 03, com API Spring Boot e MongoDB. 
 - Backend: Java 17, Spring Boot 4.0.2, Spring Web MVC, Validation e Spring Data MongoDB.
 - Banco: MongoDB local ou MongoDB Atlas.
 - Testes: JUnit Jupiter, Mockito e MockMvc.
-- Favoritos: integração opcional existente com Supabase.
+- Favoritos: MongoDB, com uma lista por navegador.
 
 ## 🏗 Arquitetura
 
@@ -146,9 +146,26 @@ Abra `http://localhost:5173`. O Vite encaminha `/api` para o backend. Não há f
 
 ### Frontend e favoritos
 
-`frontend/.env.example` documenta `VITE_API_URL`, `VITE_SUPABASE_URL` e `VITE_SUPABASE_KEY`. Copie para `.env.local` somente se precisar configurá-las. Para execução local, `VITE_API_URL` fica vazio. Em outro domínio, informe o endereço público da API e ajuste `CORS_ORIGINS` no backend.
+Preencha `VITE_API_URL` com a URL pública do backend quando frontend e API estiverem em endereços diferentes. Nesse caso, coloque a origem do frontend em `CORS_ORIGINS` no backend. Para execução local, deixe `VITE_API_URL` vazio.
 
-Favoritos mantêm a integração da atividade anterior com `frontend/supabase/favoritos.sql`. Execute esse SQL também se reutilizar um banco da Atividade 03: ele atualiza o campo de ID para aceitar até 99999, incluindo os Pokémon cadastrados nesta atividade. Sem Supabase, somente favoritos ficam desativados; pesquisa, CRUD, treinadores e detalhes continuam usando o MongoDB. Não coloque a chave `service_role` no frontend.
+Os favoritos usam a coleção `favoritos` no mesmo banco MongoDB do catálogo. O navegador guarda um identificador em `localStorage`. A lista é recuperada ao voltar ao mesmo endereço do site no mesmo perfil do navegador.
+
+#### Importar favoritos existentes
+
+Se já tiver favoritos no Supabase, exporte os dados antes de disponibilizar a nova versão. No SQL Editor do Supabase, execute:
+
+```sql
+select coalesce(jsonb_agg(to_jsonb(lista)), '[]'::jsonb) as favoritos
+from (
+  select token::text as "_id", array_agg(pokemon_id order by criado_em) as "pokemonIds"
+  from public.favoritos
+  group by token
+) lista;
+```
+
+Copie o valor da célula `favoritos` para um arquivo JSON local. No MongoDB Compass, conecte-se ao Atlas, abra o banco `pokedex` e importe o JSON em **Add Data → Import JSON or CSV file**, na coleção `favoritos`. Crie a coleção se necessário. Importe em uma coleção sem listas existentes para evitar conflitos de identificador. O arquivo contém os identificadores dos navegadores e deve ficar fora do GitHub.
+
+Se o site mudar de endereço, o navegador guarda os dados antigos e novos em espaços separados. Para recuperar uma lista no endereço novo, copie somente o valor da chave `pokedex:token` do endereço antigo para a mesma chave no novo endereço, em **DevTools → Application → Local Storage**, e recarregue a página.
 
 ### Backend com Docker
 

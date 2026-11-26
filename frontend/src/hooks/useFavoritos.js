@@ -1,18 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { temSupabase } from "../lib/supabase";
-import { alternarNoBanco, buscarFavoritos } from "../services/favoritosService";
+import { salvarFavorito, buscarFavoritos } from "../services/favoritosService";
 
 export default function useFavoritos() {
   const [favoritos, setFavoritos] = useState([]);
+  const [pronto, setPronto] = useState(false);
   const [erro, setErro] = useState(null);
   const salvando = useRef(new Set());
 
   useEffect(() => {
-    if (!temSupabase) return;
     let montado = true;
 
     buscarFavoritos()
-      .then((ids) => montado && setFavoritos(ids))
+      .then((ids) => {
+        if (montado) {
+          setFavoritos(ids);
+          setPronto(true);
+        }
+      })
       .catch(
         (e) =>
           montado &&
@@ -25,11 +29,12 @@ export default function useFavoritos() {
   }, []);
 
   const alternarFavorito = useCallback(async (id) => {
-    if (!temSupabase || salvando.current.has(id)) return;
+    if (!pronto || salvando.current.has(id)) return;
     salvando.current.add(id);
 
     try {
-      const favoritou = await alternarNoBanco(id);
+      const favoritou = !favoritos.includes(id);
+      await salvarFavorito(id, favoritou);
       setFavoritos((lista) => {
         const resto = lista.filter((x) => x !== id);
         return favoritou ? [...resto, id] : resto;
@@ -40,7 +45,7 @@ export default function useFavoritos() {
     } finally {
       salvando.current.delete(id);
     }
-  }, []);
+  }, [favoritos, pronto]);
 
-  return { favoritos, alternarFavorito, habilitado: temSupabase, erro };
+  return { favoritos, alternarFavorito, erro };
 }
