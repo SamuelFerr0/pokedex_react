@@ -150,6 +150,24 @@ Abra `http://localhost:5173`. O Vite encaminha `/api` para o backend. Não há f
 
 Favoritos mantêm a integração da atividade anterior com `frontend/supabase/favoritos.sql`. Execute esse SQL também se reutilizar um banco da Atividade 03: ele atualiza o campo de ID para aceitar até 99999, incluindo os Pokémon cadastrados nesta atividade. Sem Supabase, somente favoritos ficam desativados; pesquisa, CRUD, treinadores e detalhes continuam usando o MongoDB. Não coloque a chave `service_role` no frontend.
 
+### Backend com Docker
+
+Com o Docker em execução e o arquivo `backend/.env` configurado para o Atlas, rode da raiz do projeto:
+
+```bash
+docker build -t pokedex-back ./backend
+docker run --rm --name pokedex-back --env-file backend/.env -e PORT=8080 -p 127.0.0.1:8080:8080 pokedex-back
+```
+
+Em outro terminal, também na raiz:
+
+```bash
+npm --prefix frontend ci
+npm --prefix frontend run dev
+```
+
+Abra **http://localhost:5173**. O Vite encaminha `/api` ao backend na porta 8080. Encerre o backend local antes de subir o container para liberar a porta. Use a URI do Atlas, pois o endereço `localhost` dentro do container aponta para o próprio container.
+
 ## 📂 Estrutura de Pastas
 
 ```text
